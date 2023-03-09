@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\CidadeRequest;
 use App\Models\Cidade;
 
 class CidadeController extends Controller
@@ -21,9 +22,11 @@ class CidadeController extends Controller
         return view('admin.cidades.form');
     }
 
-    public function adicionar(Request $request)
+    public function adicionar(CidadeRequest $request)
     {
         Cidade::create($request->all());
+
+        $request->session()->flash('success', "Cidade $request->nome incluída com sucesso!");
 
         return redirect()->route('admin.cidades.list');
     }
