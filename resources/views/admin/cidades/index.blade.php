@@ -14,7 +14,26 @@
                 @forelse ($cidades as $cidade)
                     <tr>
                         <td>{{ $cidade->nome }}</td>
-                        <td class="right-align">Excluir</td>
+                        <td class="right-align">
+
+                            <a href="{{route('admin.cidades.edit', $cidade->id)}}">
+                                <span style="cursor: pointer">
+                                    <i class="material-icons blue-text text-darken-1">edit</i>
+                                </span>
+                            </a>
+
+                            <form action="{{route('admin.cidades.destroy', $cidade->id)}}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+
+                                <button style="border:0; background:transparent;" type="submit">
+                                    <span style="cursor: pointer">
+                                        <i class="material-icons red-text text-darken-1">delete_forever</i>
+                                    </span>
+                                </button>
+                            </form>
+
+                        </td>
                     </tr>
                 @empty
                     <tr>
@@ -25,7 +44,7 @@
         </table>
 
         <div class="fixed-action-btn">
-            <a href="{{route ('admin.cidades.formAdd')}}" class="btn-floating btn-large waves-effect waves-light">
+            <a href="{{route('admin.cidades.create')}}" class="btn-floating btn-large waves-effect waves-light">
                 <i class="large material-icons">add</i>
             </a>
         </div>

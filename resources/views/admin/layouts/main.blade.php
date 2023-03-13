@@ -22,10 +22,10 @@
                     <a href="/" class="brand-logo">EasyImóveis</a>
                     <ul class="right">
                         <li>
-                            <a href="#">Imóveis</a>
+                            <a href="{{route('admin.imoveis.index')}}">Imóveis</a>
                         </li>
                         <li>
-                            <a href="#">Cidades</a>
+                            <a href="{{route('admin.cidades.index')}}">Cidades</a>
                         </li>
                     </ul>
                 </div>
@@ -46,6 +46,12 @@
             @if (session('success'))
                 M.toast({html: "{{session('success')}}"});
             @endif
+
+            document.addEventListener('DOMContentLoaded', function(){
+                var elems = document.querySelectorAll('select');
+                var instances = M.FormSelect.init(elems);
+            });
+
         </script>
 
     </body>

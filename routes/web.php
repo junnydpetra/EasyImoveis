@@ -1,7 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\Admin\CidadeController;
+use App\Http\Controllers\Admin\ImovelController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +20,10 @@ Route::redirect('/', '/admin/cidades');
 
 
 Route::prefix('admin')->name('admin.')->group(function(){
-    Route::get('cidades', [CidadeController::class, 'cidades'])->name('cidades.list');
-    Route::get('cidades/adicionar', [CidadeController::class, 'formAdicionar'])->name('cidades.formAdd');
-    Route::post('cidades/adicionar', [CidadeController::class, 'adicionar'])->name('cidades.add');
+
+    Route::resource('cidades', CidadeController::class)->except(['show']);
+    Route::resource('imoveis', ImovelController::class);
+
 });
 
 Route::get('/sobre', function () {

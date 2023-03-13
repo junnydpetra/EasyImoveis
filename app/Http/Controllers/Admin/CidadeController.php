@@ -9,25 +9,80 @@ use App\Models\Cidade;
 
 class CidadeController extends Controller
 {
-    public function cidades()
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
     {
         $subtitulo = 'Lista de Cidades';
-        $cidades = Cidade::all();
-
+        $cidades = Cidade::orderBy('nome', 'asc')->get();
         return view('admin.cidades.index', compact('subtitulo', 'cidades'));
     }
 
-    public function formAdicionar()
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
     {
-        return view('admin.cidades.form');
+        $action = route('admin.cidades.store');
+        return view('admin.cidades.form', compact('action'));
     }
 
-    public function adicionar(CidadeRequest $request)
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(CidadeRequest $request)
     {
         Cidade::create($request->all());
-
         $request->session()->flash('success', "Cidade $request->nome incluída com sucesso!");
+        return redirect()->route('admin.cidades.index');
+    }
 
-        return redirect()->route('admin.cidades.list');
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        $cidade = Cidade::find($id);
+        $action = route('admin.cidades.update', $cidade->id);
+        return view('admin.cidades.form', compact('cidade', 'action'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(CidadeRequest $request, $id)
+    {
+        $cidade = Cidade::find($id);
+        $cidade->update($request->all());
+        $request->session()->flash('success', "Registro de $request->nome atualizado com sucesso!");
+        return redirect()->route('admin.cidades.index');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request, $id)
+    {
+        Cidade::destroy($id);
+        $request->session()->flash('success', "Cidade $request->nome excluída com sucesso!");
+        return redirect()->route('admin.cidades.index');
     }
 }
