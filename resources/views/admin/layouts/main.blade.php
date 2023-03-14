@@ -11,6 +11,8 @@
         <!-- Compiled and minified CSS -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
 
+        <link rel="stylesheet" href="{{asset('css/fotos.css')}}">
+
         <title>Easy Imóveis</title>
     </head>
 
@@ -19,7 +21,7 @@
         <nav>
             <div class="container">
                 <div class="nav-wrapper">
-                    <a href="/" class="brand-logo">EasyImóveis</a>
+                    <a href="{{route('admin.imoveis.index')}}" class="brand-logo">EasyImóveis</a>
                     <ul class="right">
                         <li>
                             <a href="{{route('admin.imoveis.index')}}">Imóveis</a>
