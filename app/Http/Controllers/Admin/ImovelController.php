@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Admin\CidadeController;
-use App\Models\{Cidade, Tipo, Finalidade, Imovel, Proximidade};
+use App\Models\{Cidade, Tipo, Finalidade, Imovel, Endereco, Proximidade};
 use Illuminate\Http\Request;
 use App\Http\Requests\ImovelRequest;
 use Illuminate\Support\Facades\DB;
@@ -16,17 +16,27 @@ class ImovelController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $subtitulo = 'Lista de Imóveis';
         $imoveis = Imovel::join('cidades', 'cidades.id', '=', 'imoveis.cidade_id')
-                    ->join('enderecos', 'enderecos.imovel_id', '=', 'imoveis.id')
-                    ->orderBy('cidades.nome', 'asc')
-                    ->orderBy('enderecos.bairro', 'asc')
-                    ->orderBy('titulo', 'asc')
-                    ->get();
+                            ->join('enderecos', 'enderecos.imovel_id', '=', 'imoveis.id')
+                            ->orderBy('cidades.nome', 'asc')
+                            ->orderBy('enderecos.bairro', 'asc')
+                            ->orderBy('titulo', 'asc');
 
-        return view('admin.imoveis.index', compact('subtitulo', 'imoveis'));
+        if ($request->cidade_id) {
+            $imoveis->where('cidades.id', $request->cidade_id);
+        }
+
+        if ($request->titulo) {
+            $imoveis->where('titulo', 'like', "%$request->titulo%");
+        }
+
+        $imoveis = $imoveis->get();
+
+        $cidades = Cidade::orderBy('nome')->get();
+
+        return view('admin.imoveis.index', compact('imoveis', 'cidades'));
     }
 
     /**
@@ -55,6 +65,7 @@ class ImovelController extends Controller
     {
         DB::beginTransaction();
 
+        $enderecos = Endereco::all();
         $imovel = Imovel::create($request->all());
         $imovel->endereco()->create($request->all());
 
@@ -67,7 +78,7 @@ class ImovelController extends Controller
         DB::commit();
 
         $request->session()->flash('success', "Imóvel $request->nome incluído com sucesso!");
-        return redirect()->route('admin.imoveis.index');
+        return redirect()->route('admin.imoveis.index', compact('enderecos'));
     }
 
     /**

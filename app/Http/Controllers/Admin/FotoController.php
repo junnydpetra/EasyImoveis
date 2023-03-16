@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Admin\ImovelController;
 use Illuminate\Http\Request;
+use App\Http\Requests\FotoRequest;
 use Illuminate\Support\Facades\Storage;
 use App\Models\{Imovel, Foto};
-
 use Image;
 
 class FotoController extends Controller
@@ -41,14 +41,14 @@ class FotoController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id)
+    public function store(FotoRequest $request, $id)
     {
         if ($request->hasFile('foto')) {
             if ($request->foto->isValid()) {
 
                 $fotoURL = $request->foto->hashName("imoveis/$id");
 
-                $imagem = Image::make($request->foto)->resize(1600,900);
+                $imagem = Image::make($request->foto)->fit(env('FOTO_WIDTH'), env('FOTO_HEIGHT'));
 
                 Storage::disk('public')->put($fotoURL, $imagem->encode());
 
@@ -69,8 +69,13 @@ class FotoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(FotoRequest $request, $imovelId, $fotoId)
     {
-        //
+        $foto = Foto::find($fotoId);
+        Storage::disk('public')->delete($foto->url);
+        $foto->delete();
+
+        $request->session()->flash('sucesso', 'Foto excluída com sucesso!');
+        return redirect()->route('admin.imoveis.fotos.index', $imovelId);
     }
 }

@@ -43,24 +43,6 @@ class ImovelRequest extends FormRequest
         ];
     }
 
-    // public function attributes()
-    // {
-    //     return[
-    //         'titulo' => 'título',
-    //         'cidade_id' => 'cidade',
-    //         'tipo_id' => 'tipo de imóvel',
-    //         'finalidade_id' => 'finalidade',
-    //         'preco' => 'preço',
-    //         'dormitorios' => 'quantidade de dormitórios',
-    //         'salas' => 'quantidade de salas',
-    //         'banheiros' => 'quantidade de banheiros',
-    //         'garagens' => 'vagas na garagem',
-    //         'numero' => 'número',
-    //         'descricao' => 'descrição',
-    //         'proximidades' => 'pontos de interesse'
-    //     ];
-    // }
-
     public function messages()
     {
         return [

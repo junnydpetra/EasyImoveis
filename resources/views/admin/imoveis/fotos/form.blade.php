@@ -15,6 +15,10 @@
             <div class="file-path-wrapper">
                 <input type="text" class="file-path validate">
             </div>
+
+            @error('foto')
+                <span class="red-text text-accent-3"><small>{{$message}}</small></span>
+            @enderror
         </div>
 
         <div class="right-align">

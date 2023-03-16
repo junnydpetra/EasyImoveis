@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\Endereco;
 
 class Imovel extends Model
 {
@@ -27,7 +28,7 @@ class Imovel extends Model
 
     public function endereco()
     {
-        return $this->hasOne(Endereco::class);
+        return $this->hasOne(Endereco::class, 'imovel_id', 'id');
     }
 
     public function cidade()

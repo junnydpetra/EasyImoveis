@@ -2,6 +2,42 @@
 
 @section('main_content')
 
+    <section class="section">
+
+        <form action="{{route('admin.imoveis.index')}}" method="GET ">
+
+            <div class="row valign-wrapper">
+
+                <div class="input-field col s6">
+                    <select name="cidade_id" id="cidade">
+                        <option value="">Selecione uma cidade</option>
+
+                        @foreach ($cidades as $cidade)
+                            <option value="{{$cidade->id}}">{{$cidade->nome}}</option>
+                        @endforeach
+
+                    </select>
+                </div>
+
+                <div class="input-field col s6">
+                    <input type="text" name="titulo" id="titulo">
+                    <label for="titulo">Título</label>
+                </div>
+
+            </div>
+
+            <div class="row center-align">
+                <button type="submit" class="btn waves-effect waves-light">
+                    Buscar
+                </button>
+            </div>
+
+        </form>
+
+    </section>
+
+    {{-- <hr> --}}
+
     <table class="highlight">
         <thead>
             <tr>
@@ -16,7 +52,7 @@
             @forelse ($imoveis as $imovel)
                 <tr>
                     <td>{{$imovel->cidade->nome}}</td>
-                    <td>{{$imovel->endereco->bairro}}</td>
+                    <td>{{$imovel->bairro}}</td>
                     <td>{{$imovel->titulo}}</td>
                     <td class="right-align">
 

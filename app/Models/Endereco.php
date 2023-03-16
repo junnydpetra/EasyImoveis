@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Imovel;
 
 class Endereco extends Model
 {
@@ -13,11 +14,11 @@ class Endereco extends Model
         'rua',
         'numero',
         'bairro',
-        'complemento'
+        'complemento',
     ];
 
     public function imovel()
     {
-        return  $this->belongsTo(Imovel::class);
+        return  $this->belongsTo(Imovel::class, 'imovel_id', 'id');
     }
 }
