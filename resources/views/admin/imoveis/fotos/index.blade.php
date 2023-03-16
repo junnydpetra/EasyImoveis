@@ -40,5 +40,17 @@ f
                 </a>
             </div>
 
+            <script>
+                @if (session('sucesso'))
+                    M.toast({html: "{{session('success')}}"});
+                @endif
+
+                document.addEventListener('DOMContentLoaded', function(){
+                    var elems = document.querySelectorAll('select');
+                    var instances = M.FormSelect.init(elems);
+                });
+
+            </script>
+
         </section>
  @endsection

@@ -69,7 +69,7 @@ class FotoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(FotoRequest $request, $imovelId, $fotoId)
+    public function destroy(Request $request, $imovelId, $fotoId)
     {
         $foto = Foto::find($fotoId);
         Storage::disk('public')->delete($foto->url);

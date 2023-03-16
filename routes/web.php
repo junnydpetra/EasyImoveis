@@ -17,9 +17,6 @@ use App\Http\Controllers\Admin\{CidadeController,
 |
 */
 
-Route::redirect('/', '/admin/cidades');
-
-
 Route::prefix('admin')->name('admin.')->group(function(){
 
     Route::resource('cidades', CidadeController::class)->except(['show']);
@@ -27,6 +24,8 @@ Route::prefix('admin')->name('admin.')->group(function(){
     Route::resource('imoveis.fotos', FotoController::class)->except(['show', 'edit', 'update']);;
 
 });
+
+Route::resource('/', App\Http\Controllers\Site\CidadeController::class)->only('index');
 
 Route::get('/sobre', function () {
     return '<h1>Sobre</h1>';

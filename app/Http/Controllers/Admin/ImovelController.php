@@ -24,19 +24,22 @@ class ImovelController extends Controller
                             ->orderBy('enderecos.bairro', 'asc')
                             ->orderBy('titulo', 'asc');
 
-        if ($request->cidade_id) {
-            $imoveis->where('cidades.id', $request->cidade_id);
+        $cidade_id = $request->cidade_id;
+        $titulo = $request->titulo;
+
+        if ($cidade_id) {
+            $imoveis->where('cidades.id', $cidade_id);
         }
 
-        if ($request->titulo) {
-            $imoveis->where('titulo', 'like', "%$request->titulo%");
+        if ($titulo) {
+            $imoveis->where('titulo', 'like', "%$titulo%");
         }
 
-        $imoveis = $imoveis->get();
+        $imoveis = $imoveis->paginate(env('PAGINATION'))->withQueryString();
 
         $cidades = Cidade::orderBy('nome')->get();
 
-        return view('admin.imoveis.index', compact('imoveis', 'cidades'));
+        return view('admin.imoveis.index', compact('imoveis', 'cidades', 'cidade_id', 'titulo'));
     }
 
     /**

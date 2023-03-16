@@ -13,20 +13,23 @@
                         <option value="">Selecione uma cidade</option>
 
                         @foreach ($cidades as $cidade)
-                            <option value="{{$cidade->id}}">{{$cidade->nome}}</option>
+                            <option value="{{$cidade->id}}" {{$cidade->id == $cidade_id ? 'selected' : ''}}>{{$cidade->nome}}</option>
                         @endforeach
 
                     </select>
                 </div>
 
                 <div class="input-field col s6">
-                    <input type="text" name="titulo" id="titulo">
+                    <input type="text" name="titulo" id="titulo" value="{{$titulo}}">
                     <label for="titulo">Título</label>
                 </div>
 
             </div>
 
-            <div class="row center-align">
+            <div class="row right-align">
+                <a href="{{route('admin.imoveis.index')}}" class="btn-flat waves-effect">
+                    Todos
+                </a>
                 <button type="submit" class="btn waves-effect waves-light">
                     Buscar
                 </button>
@@ -35,8 +38,6 @@
         </form>
 
     </section>
-
-    {{-- <hr> --}}
 
     <table class="highlight">
         <thead>
@@ -88,11 +89,15 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="4">Não há imóveis cadastrados.</td>
+                    <td colspan="4">Não há imóveis cadastrados para essa pesquisa.</td>
                 </tr>
             @endforelse
         </tbody>
     </table>
+
+    <div class="center">
+        {{$imoveis->links('shared.pagination')}}
+    </div>
 
     <div class="fixed-action-btn">
         <a href="{{route('admin.imoveis.create')}}" class="btn-floating btn-large waves-effect waves-light">
